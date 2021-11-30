@@ -7,6 +7,7 @@ import (
 type Flag interface {
 	TrySet() bool
 	IsSet() bool
+	TryDrop() bool
 	Drop()
 }
 
