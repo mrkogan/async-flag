@@ -4,12 +4,17 @@ import (
 	"sync"
 )
 
+type Flag interface {
+	TrySet() bool
+	Drop()
+}
+
 type service struct {
 	mu   *sync.Mutex
 	flag int
 }
 
-func New() *service {
+func New() Flag {
 	mu := sync.Mutex{}
 	s := service{
 		mu:   &mu,
