@@ -50,3 +50,14 @@ func (s *service) Drop() {
 	s.flag = 0
 	s.mu.Unlock()
 }
+
+func (s *service) TryDrop() bool {
+	s.mu.Lock()
+	if s.flag != 0 {
+		s.flag = 0
+		s.mu.Unlock()
+		return true
+	}
+	s.mu.Unlock()
+	return false
+}
