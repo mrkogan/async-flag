@@ -6,6 +6,7 @@ import (
 
 type Flag interface {
 	TrySet() bool
+	IsSet() bool
 	Drop()
 }
 
@@ -30,6 +31,16 @@ func (s *service) TrySet() bool {
 		return false
 	}
 	s.flag = 1
+	s.mu.Unlock()
+	return true
+}
+
+func (s *service) IsSet() bool {
+	s.mu.Lock()
+	if s.flag == 0 {
+		s.mu.Unlock()
+		return false
+	}
 	s.mu.Unlock()
 	return true
 }
